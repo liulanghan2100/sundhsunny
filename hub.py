@@ -438,37 +438,85 @@ def _graph_name_pattern(pattern: str) -> str:
     return ".*(" + "|".join(re.escape(t) for t in terms) + ").*"
 
 
-def graph_search(pattern: str, limit: int = 8) -> dict[str, Any]:
+def _interleave(groups: list[list], limit: int) -> list:
+    """把多个列表轮转合并，避免某一个大列表独占前 limit 个名额。
+
+    例：A=[a1,a2,a3] B=[b1] C=[c1,c2]
+        结果 = a1,b1,c1,a2,c2,a3
+    这样即便 A 命中很多，B、C 也能出现在结果里。
+    """
+    out: list = []
+    i = 0
+    while len(out) < limit:
+        progressed = False
+        for g in groups:
+            if i < len(g):
+                out.append(g[i])
+                progressed = True
+                if len(out) >= limit:
+                    return out
+        if not progressed:
+            break
+        i += 1
+    return out
+
+
+def graph_search(pattern: str, limit: int = 8, per_project: int = 0) -> dict[str, Any]:
     """在所有已索引项目里按名字模式搜符号。
 
     pattern 可以是自由文本（会被拆成关键词，见 _graph_terms），
     也可以是调用方已经写好的正则。
+
+    为什么每个项目都要查：
+      旧实现凑够 limit 条就 break，导致排在后面的项目从未被搜索 ——
+      实测搜 "Applier" 只返回第一个项目的结果，主库 39430 节点从未命中。
+      现在改为全部查完，再按轮转方式公平取前 limit 条。
     """
+    # 每个项目最多取多少条：默认跟随 limit（至少 20），
+    # 避免 limit 放大时反而因为上限太低而少给结果。
+    cap = per_project if per_project > 0 else max(20, limit)
+
     projects = graph_projects()
     if not projects:
         return {"ok": False, "error": "图谱中没有已索引的项目"}
 
     name_pattern = _graph_name_pattern(pattern)
-    hits: list[dict[str, Any]] = []
-    for p in projects:
+
+    # 项目按节点数降序：截断时优先保留主库（大项目）的结果
+    ordered = sorted(projects, key=lambda p: -(p.get("nodes") or 0))
+
+    groups: list[list] = []
+    per_counts: dict[str, int] = {}
+    scanned = 0
+    for p in ordered:
         name = p.get("name")
         if not name:
             continue
-        r = graph_call("search_graph", {"project": name, "name_pattern": name_pattern})
+        scanned += 1
+        r = graph_call("search_graph",
+                       {"project": name, "name_pattern": name_pattern})
         if not r.get("ok"):
+            per_counts[name] = -1        # 标记查询失败
             continue
         d = r["data"]
         items = d.get("results") or d.get("matches") or d.get("nodes") or []
         if isinstance(d, list):
             items = d
-        for it in items[:limit]:
-            hits.append({"project": name, "item": it})
-        if len(hits) >= limit:
-            break
-    return {"ok": True, "hits": hits[:limit],
-            "scanned_projects": len(projects),
-            "terms": _graph_terms(pattern),
-            "name_pattern": name_pattern}
+        got = [{"project": name, "item": it} for it in items[:cap]]
+        per_counts[name] = len(got)
+        if got:
+            groups.append(got)
+
+    hits = _interleave(groups, limit)
+    return {
+        "ok": True,
+        "hits": hits,
+        "scanned_projects": scanned,
+        "projects_with_hits": len(groups),
+        "per_project_counts": per_counts,
+        "terms": _graph_terms(pattern),
+        "name_pattern": name_pattern,
+    }
 
 # ---------------------------------------------------------------- 能力：三源检索
 

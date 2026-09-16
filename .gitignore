@@ -53,3 +53,8 @@ skills/skills-shared-candidate/manual-gates/scripts/manual_mcp/projects/
 
 # ---------- 构建中间产物 ----------
 _build_step1.py
+
+# ---------- 历史备份 ----------
+# 手工快照（含记忆数据备份），是回退手段而非源码；
+# git 自身即历史，不重复跟踪。需要长期保留的备份另存包外。
+_archive/
