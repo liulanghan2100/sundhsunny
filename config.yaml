@@ -2,7 +2,7 @@
 schema: agentos-hub/config/v1
 
 name: agentos-hub
-version: 1.0.0
+version: 1.1.0
 
 # 四层结构
 layers:
