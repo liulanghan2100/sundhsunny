@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Math Model Selector"
+  short_description: "Select candidate mathematical models with assumptions, failure modes, validation tests, and evidence boundaries."
+  default_prompt: "Use the math-model-selector skill to analyze this project and produce candidate models, assumptions, failure modes, validation tests, and risk boundaries."

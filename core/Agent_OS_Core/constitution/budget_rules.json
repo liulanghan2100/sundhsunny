@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "created_at": "2026-08-13",
+    "unit": "USD",
+    "modification_policy": "owner_only"
+  },
+  "budget_caps": {
+    "daily_budget_usd": 100.00,
+    "weekly_budget_usd": 600.00,
+    "monthly_budget_usd": 2500.00,
+    "per_task_budget_usd": 20.00,
+    "emergency_reserve_usd": 100.00
+  },
+  "circuit_breaker": {
+    "tiers": [
+      {
+        "name": "yellow_alert",
+        "threshold_pct": 80,
+        "action": "notify_agent_and_log",
+        "restrictions": []
+      },
+      {
+        "name": "orange_alert",
+        "threshold_pct": 90,
+        "action": "suspend_non_core_tasks",
+        "core_only": [
+          "task_queue",
+          "audit",
+          "evidence_retention",
+          "rollback",
+          "budget_monitor"
+        ],
+        "restrictions": [
+          "pause_all_exploration_tasks",
+          "pause_all_shadow_experiments",
+          "pause_all_skill_forge"
+        ]
+      },
+      {
+        "name": "red_alert",
+        "threshold_pct": 100,
+        "action": "degrade_model_and_restrict",
+        "model_degradation_chain": [
+          "claude-sonnet-4",
+          "claude-haiku",
+          "local_model"
+        ],
+        "restrictions": [
+          "all_new_tasks_require_budget_approval_from_circuit_breaker",
+          "exploration_tasks_frozen",
+          "only_read_only_operations_allowed"
+        ]
+      },
+      {
+        "name": "blackout",
+        "threshold_pct": 110,
+        "action": "halt_all_llm_calls",
+        "mode": "read_only",
+        "restrictions": [
+          "zero_llm_api_calls",
+          "local_operations_only",
+          "owner_notification_required_to_resume"
+        ]
+      }
+    ]
+  },
+  "token_budget": {
+    "daily_input_tokens": 2000000,
+    "daily_output_tokens": 500000,
+    "action_on_exceed": "compress_context_and_degrade_model"
+  },
+  "budget_tracking": {
+    "store": "sqlite",
+    "table": "budget_daily_log",
+    "retention_days": 90,
+    "audit_every_n_hours": 1
+  }
+}

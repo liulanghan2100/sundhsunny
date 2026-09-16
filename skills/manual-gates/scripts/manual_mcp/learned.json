@@ -1,0 +1,212 @@
+{
+  "node_updates": {
+    "24": {
+      "acceptance": "复盘结论回答『指标变没变、为什么、下一步做什么』，且至少1条洞察已通过 feedback_loop 回流为验收标准或新节点；Agent OS/产品自治项目复盘还必须引用 runtime/acceptance/feedback backlog 至少一类可审计证据。"
+    },
+    "8": {
+      "acceptance": "技术选型报告 + 补充条款：高风险技术选型必须附带降级方案与验证时间点（源自voicecad项目pythonocc无pip轮子熔断的真实教训，因预设CadQuery降级路径当日恢复）"
+    },
+    "11": {
+      "acceptance": "基线模型/规则跑通且指标记录 + 补充条款：评估数据须包含与实现者无关的对抗样本（同源评估会导致有效性虚高，voicecad首轮合成集100%后被口语集证伪为66.7%）"
+    },
+    "19": {
+      "acceptance": "模型显著优于基线，且提升方向与业务指标一致 + 补充条款：有效性结论须注明评估数据来源与独立性（自编/合成/独立第三方），同源数据结论降级为参考"
+    },
+    "15": {
+      "acceptance": "POC验证报告 + 补充条款：必须记录废弃/变更API及替代写法，形成踩坑清单供后续项目复用；开发实现前需执行 Ponytail 决策阶梯，新增代码、依赖或抽象必须说明为什么不能复用现有代码、标准库或原生能力"
+    },
+    "16": {
+      "acceptance": "核心逻辑覆盖率达到约定线；无未处理的评审意见；代码评审需检查是否存在可删除的包装层、重复实现、无必要依赖，优先复用现有代码、标准库与原生能力"
+    },
+    "4": {
+      "acceptance": "MVP功能砍到『再砍一个就无法验证假设』为止；立项时必须声明改动类型（Core/Capability/App/Doc）与轨道匹配理由——Core（内核/运行时/门禁/状态结构/手册自升级）改动禁走quick轨，最低standard；拿不准从Core + 补充：quick轨无节点10数据盘点，立项必须附现状实测证据——挂账/需求的前提先实测证伪再立项（防止为已解决的问题开工）"
+    },
+    "22": {
+      "acceptance": "发布/灰度记录完整可回滚 + 补充：发布前必须打回退锚点（git tag 或等价快照）并在验收记录注明锚点名——无锚点不发布"
+    },
+    "23": {
+      "acceptance": "监控指标可观测且告警路径明确；若产物为可执行组件（MCP/脚本），验收须提供独立复跑证据（跨时间或跨会话重跑通过），不接受仅开发时的自述记录"
+    },
+    "17": {
+      "acceptance": "Happy Path全链路一次性通过 + 补充：集成冒烟可采用队列执行证据（execution.json，含 node_id 门禁标签）作为独立复跑证据——证据由队列执行器机器生成、collect_gate_evidence 检索回传，与实现者手写文档相互独立"
+    }
+  },
+  "new_nodes": [
+    {
+      "id": 26,
+      "stage": "qa",
+      "name": "数据合规与伦理检查",
+      "action": "核查训练/业务数据来源合法性、隐私脱敏、模型偏见与误用风险",
+      "output": "合规检查清单与风险处置记录",
+      "acceptance": "数据来源有合法性说明；含个人信息的数据有脱敏方案；已评估主要偏见/误用场景并有处置结论",
+      "source_project": "manual-gates-v2"
+    },
+    {
+      "id": 27,
+      "stage": "strategy",
+      "name": "AI就绪度评估",
+      "action": "立项前对技能、数据、算力三维度打分：技能（团队是否具备所需技术能力）、数据（量级/质量/可用性是否支撑目标）、算力（训练与推理资源是否负担得起）",
+      "output": "就绪度评估表（三维各达标/不达标结论）",
+      "acceptance": "技能、数据、算力三维均有明确达标/不达标结论；任一不达标项有处置方案（补齐、缩减scope或放弃立项）；无处置结论不得进入设计阶段",
+      "source_project": "manual-gates-v2_1"
+    }
+  ],
+  "log": [
+    {
+      "type": "update_node",
+      "project": "manual-gates-v2",
+      "node_id": 24,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "v1优缺点评估发现：kimi-taskboard复盘的洞察只留在markdown里，对下一项目无约束力——复盘必须产出回流，否则闭环断裂",
+      "ts": "2026-07-19T12:27:55.761930+00:00"
+    },
+    {
+      "type": "add_node",
+      "project": "manual-gates-v2",
+      "node_id": 26,
+      "name": "数据合规与伦理检查",
+      "rationale": "v1评估确认的短板：25节点无合规检查，真实AI项目里这是硬需求",
+      "ts": "2026-07-19T12:27:59.654103+00:00"
+    },
+    {
+      "type": "add_node",
+      "project": "manual-gates-v2_1",
+      "node_id": 27,
+      "name": "AI就绪度评估",
+      "rationale": "对比调研（07_流程调研）确认的最大缺口：微软AI采用计划指出『AI项目失败于尝试超出技术成熟度或数据可用性的实施』；v1演练中阶段三才发现缺doneAt字段即能力型返工实例",
+      "ts": "2026-07-19T12:57:52.135627+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "voicecad",
+      "node_id": 8,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "voicecad节点8选型pythonocc在POC阶段熔断，因预设降级方案未阻塞进度；固化为节点8通用验收标准",
+      "ts": "2026-07-19T14:22:01.776672+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "voicecad",
+      "node_id": 11,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "voicecad节点19两轮迭代实证：实现者自编的评估集系统性偏松；固化为节点11通用验收标准",
+      "ts": "2026-07-19T14:52:51.076161+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "voicecad",
+      "node_id": 19,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "同上，voicecad口语对照实验的真实教训",
+      "ts": "2026-07-19T14:52:54.661838+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "voicecad-asm",
+      "node_id": 15,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "voicecad-asm的POC发现CadQuery的save()废弃改export()、Compound无common()改Workplane.intersect()两处；此类知识不回填则每个项目重踩",
+      "ts": "2026-07-20T00:57:03.678358+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "ponytail-research",
+      "node_id": 16,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "Ponytail调研表明反过度工程规则最适合作为节点16代码评审补充项，可提升Quick轨和开发阶段质量",
+      "ts": "2026-07-21T04:20:03.123263+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "manual-ponytail-update",
+      "node_id": 15,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "Ponytail规则已进入正式手册节点15，MCP执行侧也必须同步，否则AI实际执行时只看旧验收标准",
+      "ts": "2026-07-21T04:35:08.265414+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "manual-agent-os-v5.19-product-os",
+      "node_id": 24,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "product-os-retro-needs-auditable-product-cycle-evidence",
+      "ts": "2026-07-21T17:13:39.457765+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "evolution-review-v3-v7",
+      "node_id": 4,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "v3→v7复盘实测：62版本中Core改动87%走quick轨、standard轨4次使用3次给了门禁系统自身，风险匹配完全倒挂；把类型声明前置到立项节点（节点4）可在最早时机拦截滥用，见06_演进记录/evolution-review-v3-v7基线数据",
+      "ts": "2026-07-30T13:57:47.394152+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "evolution-review-v3-v7",
+      "node_id": 22,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "v3→v7复盘实测发现SKILL.md漂移：已安装副本停留v2文本（25节点/10工具）而代码已是v3（27节点/11工具/三轨），漂移存活约10天跨60个版本未被发现；发布节点是防漂移的最后关卡，见06_演进记录/evolution-review-v3-v7 UAT增量发现",
+      "ts": "2026-07-30T13:57:50.541485+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "manual-agent-os-v7-real-task-executor",
+      "node_id": 23,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "v7-real-task-executor无门禁补审实证：04验收自述三项（compile/smoke/evidence）经跨4天独立复验才确认可信；自带审计面的产物（execution.json）是补审可能的前提，固化为所有项目的验收标准",
+      "ts": "2026-07-30T14:14:09.533152+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "queue-gate-linkage",
+      "node_id": 17,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "queue-gate-linkage 项目节点17自证首例：任务 task-20260730154056183949 经队列脱手执行，产出的 execution.json（16字段含 project/node_id=17，run_mode=subprocess）直接作 submit_check artifact 通过验收并 sustained 对抗评审。机器生成证据独立性优于实现者自述文档，且可复跑（selfproof_node17_driver.py 留存）。",
+      "ts": "2026-07-30T15:47:56.711279+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "workspace-git-hardening",
+      "node_id": 4,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "workspace-git-hardening立项实测证伪『工作区无git』挂账前提——仓库早已存在(1210文件)，真实病灶是210个runtime文件入库+126项积压；若无节点4实测，quick轨项目会错误执行git init。quick轨[4,9,17,19,24]跳过节点10数据盘点，现状实测责任必须前置。",
+      "ts": "2026-07-30T16:10:19.350925+00:00"
+    },
+    {
+      "type": "update_node",
+      "project": "queue-running-watchdog",
+      "node_id": 22,
+      "fields": [
+        "acceptance"
+      ],
+      "rationale": "workspace-git-hardening 与 queue-running-watchdog 连续两项目以 pre-git-hardening tag 作回退锚点，后者更把 git checkout 写进里程碑缓冲 M1（git 化红利兑现）。锚点先行使回退从口头方案变为可执行动作，且成本仅一行命令。",
+      "ts": "2026-07-30T16:24:42.787482+00:00"
+    }
+  ]
+}

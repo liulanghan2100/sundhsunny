@@ -1,0 +1,55 @@
+# ============================================================
+# agentos-hub —— 版本管理范围
+# ============================================================
+#
+# 【跟踪】源码、配置、技能定义、文档            约 8 MB
+# 【排除】引擎程序、图谱索引、运行时数据、素材包  约 388 MB
+#
+# 为什么这样划：git 擅长管文本，不擅长管大二进制。
+# 把 260MB 的引擎塞进仓库，每次提交都会变慢，历史还会不断膨胀。
+# 这些文件仍随包分发（不走 git），指纹记录在 VERSION-MANIFEST.md，
+# 需要时可以校验它们有没有被改动过。
+
+# ---------- Python 缓存 ----------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- 备份文件 ----------
+# git 本身就是历史，不再需要 .bak 这类手工快照
+*.bak
+*.bak-*
+*.bak_*
+*.bak-before-*
+.gitignore.bak*
+*.py.bak-before-*
+
+# ---------- 运行时数据 ----------
+# 记忆与知识库的 sqlite/jsonl 是可重建索引或运行产物；
+# 记忆正文（memory.jsonl）另行备份，见 VERSION-MANIFEST.md
+data/
+*.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+*.jsonl
+
+# ---------- 知识图谱引擎与索引 ----------
+# 引擎 260MB、索引 67MB：随包分发，不进版本库
+tools/codebase-memory-mcp/bin/
+tools/codebase-memory-mcp/cache/
+
+# ---------- 门禁运行时状态 ----------
+# 244 个项目的 state.json 是运行产物，不是源码
+skills/manual-gates/scripts/manual_mcp/projects/
+skills/skills-shared-candidate/manual-gates/scripts/manual_mcp/projects/
+
+# ---------- 大体积素材 ----------
+# 技能模板压缩包（单个最大 13.8MB），按需另存
+*.zip
+*.tar.gz
+
+# ---------- 构建中间产物 ----------
+_build_step1.py

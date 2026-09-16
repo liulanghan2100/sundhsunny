@@ -1,0 +1,4 @@
+interface:
+  display_name: "Industrial Expert Dev"
+  short_description: "工业自动化软件项目专家流程：PLC、HMI、扫码、相机、打标、MES追溯、报警、权限、数据库、发布验收。"
+  default_prompt: "按 industrial-expert-dev 流程，为这个工业软件项目先输出全局大纲、通讯矩阵、交互信号表、UI清单和验收矩阵，再开始实现。"

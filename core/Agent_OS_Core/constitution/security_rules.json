@@ -1,0 +1,102 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "created_at": "2026-08-13",
+    "modification_policy": "owner_only"
+  },
+  "sandbox": {
+    "root": "Agent_OS_Core/sandbox/",
+    "max_size_mb": 10000,
+    "allowed_origins": [
+      "pypi.org",
+      "npmjs.com",
+      "huggingface.co",
+      "github.com",
+      "raw.githubusercontent.com"
+    ],
+    "blocked_packages": [
+      "requests",
+      "urllib3",
+      "socket",
+      "subprocess",
+      "ctypes",
+      "multiprocessing",
+      "pynput",
+      "keyboard",
+      "mouse"
+    ],
+    "auto_scan": true,
+    "scan_tools": [
+      "pip-audit",
+      "bandit",
+      "safety"
+    ],
+    "scan_threshold": "medium"
+  },
+  "install_policy": {
+    "low_risk": {
+      "action": "auto_install_to_sandbox",
+      "conditions": [
+        "package_in_allowed_origins",
+        "no_blocked_dependencies",
+        "scan_passes_low"
+      ]
+    },
+    "medium_risk": {
+      "action": "auto_install_to_sandbox_with_monitoring",
+      "conditions": [
+        "package_in_allowed_origins",
+        "scan_has_warnings_but_no_critical",
+        "monitor_network_and_file_access_for_24h"
+      ]
+    },
+    "high_risk": {
+      "action": "auto_reject",
+      "conditions": [
+        "blocked_package_detected",
+        "critical_vulnerability_found",
+        "origin_not_in_allowed_list"
+      ]
+    },
+    "unknown_risk": {
+      "action": "auto_reject",
+      "fallback": "quarantine_for_manual_review_if_owner_available"
+    }
+  },
+  "file_system_guardrails": {
+    "protected_paths": [
+      "Agent_OS_Core/constitution/",
+      "02_执行手册/",
+      ".git/",
+      ".env",
+      "10_知识储备库/cases/"
+    ],
+    "write_allowed_under": [
+      "Agent_OS_Core/law/",
+      "Agent_OS_Core/sandbox/",
+      "04_技能包/",
+      "06_演进记录/",
+      "09_research/",
+      "runs/"
+    ],
+    "auto_backup_before_write": true,
+    "backup_retention_days": 30
+  },
+  "network_guardrails": {
+    "outbound_allowed": [
+      "github.com",
+      "api.github.com",
+      "pypi.org",
+      "npmjs.com",
+      "huggingface.co",
+      "arxiv.org",
+      "scholar.google.com"
+    ],
+    "outbound_blocked": [
+      "*",
+      "localhost:*",
+      "127.0.0.1:*"
+    ],
+    "default_policy": "deny_all_except_allowed"
+  }
+}

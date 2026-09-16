@@ -1,0 +1,77 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "created_at": "2026-08-13",
+    "modification_policy": "owner_only"
+  },
+  "shadow_evolution": {
+    "enabled": true,
+    "workflow": [
+      "shadow_clone",
+      "apply_proposal",
+      "run_test_suite",
+      "run_smoke_tests",
+      "performance_benchmark",
+      "soak_test_simulation",
+      "auto_promotion_or_discard"
+    ],
+    "promotion_criteria": {
+      "all_tests_pass": true,
+      "smoke_tests_pass": true,
+      "performance_not_degraded": true,
+      "soak_test_duration_hours": 168,
+      "min_success_rate_pct": 95
+    },
+    "auto_promotion": true,
+    "auto_discard_on_failure": true,
+    "archive_old_version": true,
+    "archive_retention_days": 30,
+    "max_concurrent_shadows": 3,
+    "shadow_isolation": {
+      "separate_directory": true,
+      "separate_python_env": true,
+      "no_production_data_access": true
+    }
+  },
+  "skill_evolution": {
+    "enabled": true,
+    "mutation_strategies": [
+      "parameter_tuning",
+      "logic_refinement",
+      "crossover_with_related_skills"
+    ],
+    "fitness_metrics": [
+      "task_success_rate",
+      "execution_time",
+      "resource_usage",
+      "output_quality_score"
+    ],
+    "min_fitness_for_promotion": 0.7,
+    "max_mutations_per_skill_per_day": 5
+  },
+  "memory_evolution": {
+    "enabled": true,
+    "consolidation_schedule": "daily_at_02_00",
+    "forgetting_rules": {
+      "compress_below_importance": 0.3,
+      "archive_below_importance": 0.1,
+      "retention_days_for_compressed": 90,
+      "retention_days_for_archived": 365
+    },
+    "pattern_extraction_min_frequency": 3,
+    "pattern_extraction_min_success_rate": 0.7
+  },
+  "architecture_self_evaluation": {
+    "enabled": true,
+    "evaluation_frequency": "weekly",
+    "metrics": [
+      "task_throughput",
+      "error_rate",
+      "average_task_cost",
+      "skill_reuse_rate",
+      "memory_efficiency"
+    ],
+    "auto_propose_optimization": true,
+    "proposal_threshold": "efficiency_below_baseline_10pct"
+  }
+}

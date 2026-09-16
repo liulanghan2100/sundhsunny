@@ -1,0 +1,19 @@
+# agentos-hub 依赖声明
+#
+# 与 agentos-slim 的关键差异：不随包打包依赖，而是声明版本后标准安装。
+# 原版把 mcp 1.30 塞进 _runtime_deps（52MB），并被迫改 gate.py 源码，
+# 只是为了兼容一个本就该换掉的解释器。
+#
+# 安装：python -m pip install -r requirements.txt
+
+# 必需：门禁与记忆引擎的 MCP 运行时
+#
+# 为什么锁 <2.0：mcp 2.x 移除了 mcp.server.fastmcp，
+# 而 gate.py 与 experience_memory_mcp 都依赖 FastMCP。
+mcp>=1.28,<2.0
+
+# 配置读取
+PyYAML>=6.0
+
+# 任务卡校验（Agent_OS_Core/schemas/validation.py）
+jsonschema>=4.0

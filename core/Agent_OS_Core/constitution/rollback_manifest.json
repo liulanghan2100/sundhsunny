@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "created_at": "2026-08-13",
+    "type": "rollback_baseline",
+    "modification_policy": "owner_only"
+  },
+  "baseline_snapshot": {
+    "agent_os_entrypoint": "Agent_OS_Core/agent_os.py",
+    "control_script": "Agent_OS_Core/scripts/agent_os_control.py",
+    "manual_gates_core": "02_执行手册/",
+    "skill_registry": "04_技能包/",
+    "knowledge_base": "10_知识储备库/",
+    "evidence_store": "runs/"
+  },
+  "rollback_procedures": {
+    "trigger_conditions": [
+      "shadow_evolution_promotion_failure",
+      "system_instability_detected",
+      "owner_manual_trigger",
+      "security_breach_detected"
+    ],
+    "auto_rollback": {
+      "enabled": true,
+      "conditions": [
+        "critical_error_rate_above_50pct_for_1h",
+        "all_shadows_fail_simultaneously"
+      ]
+    },
+    "manual_rollback": {
+      "command": "python Agent_OS_Core/scripts/rollback.py --to-baseline",
+      "requires_owner": false,
+      "agent_can_trigger": true
+    }
+  },
+  "snapshot_schedule": {
+    "auto_snapshot_before_promotion": true,
+    "daily_snapshot_at": "03_00",
+    "retention_count": 30
+  }
+}

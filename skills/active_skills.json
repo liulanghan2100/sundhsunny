@@ -1,0 +1,327 @@
+{
+  "schema": "agent-os-active-skills/v1",
+  "generated_at": "2026-08-10T23:59:30",
+  "overrides": {
+    "xlsx": {
+      "enabled": true,
+      "reason": "正业刚需(财务分析/建模)",
+      "updated_at": "2026-08-09T21:41:34"
+    },
+    "skill-creator": {
+      "enabled": true,
+      "reason": "Moonshot官方第一方技能，来源已确证(2026-08-09审计)",
+      "updated_at": "2026-08-09T21:53:24"
+    },
+    "kimi-webbridge": {
+      "enabled": true,
+      "reason": "Moonshot官方第一方技能，来源已确证(2026-08-09审计)",
+      "updated_at": "2026-08-09T21:53:24"
+    },
+    "kimi-design-skill": {
+      "enabled": true,
+      "reason": "Moonshot官方第一方技能，来源已确证(2026-08-09审计)",
+      "updated_at": "2026-08-09T21:53:24"
+    },
+    "kimi-slides": {
+      "enabled": true,
+      "reason": "Moonshot官方第一方技能，SKILL.md声明first-party(2026-08-09审计)",
+      "updated_at": "2026-08-09T21:53:24"
+    },
+    "webapp-building": {
+      "enabled": true,
+      "reason": "Moonshot官方webapp-building local edition，来源已确证(2026-08-09审计)",
+      "updated_at": "2026-08-09T21:53:25"
+    },
+    "md-to-pdf": {
+      "enabled": true,
+      "reason": "用户指令启用(2026-08-09)；转换工具正业可用，来源待日后补",
+      "updated_at": "2026-08-09T21:55:37"
+    },
+    "math-model-selector": {
+      "enabled": true,
+      "reason": "正业刚需(工业/AgentOS建模选型)，场景链已引用",
+      "updated_at": "2026-08-09T22:00:43"
+    },
+    "ad-creative": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:43"
+    },
+    "campaign-plan": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:43"
+    },
+    "churn-prevention": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:43"
+    },
+    "content-research-writer": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:44"
+    },
+    "copy-editing": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:44"
+    },
+    "copywriting": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:44"
+    },
+    "pricing-strategy": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:44"
+    },
+    "saas-metrics-coach": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:44"
+    },
+    "seo-audit": {
+      "enabled": false,
+      "reason": "营销/SaaS类与正业零交集，归档留底(2026-08-09)",
+      "updated_at": "2026-08-09T22:00:45"
+    },
+    "debate-protocol": {
+      "enabled": true,
+      "lifecycle": "active",
+      "reason": "投资晋升门通过：10 条 eval 全过（2026-08-10，A股8条5/5+美股降级无故障），owner 确认晋升 active",
+      "updated_at": "2026-08-10T23:59:24"
+    },
+    "trading-decision-workflow": {
+      "enabled": true,
+      "reason": "用户使能指令：模式2蒸馏完成（快速模式），投研决策场景自动触发，评审待补",
+      "updated_at": "2026-08-09T22:46:37"
+    },
+    "decision-review-loop": {
+      "enabled": true,
+      "lifecycle": "active",
+      "reason": "投资晋升门通过：10 条 eval 全过（2026-08-10，A股8条5/5+美股降级无故障），owner 确认晋升 active",
+      "updated_at": "2026-08-10T23:59:24"
+    },
+    "market-rehearsal": {
+      "enabled": true,
+      "reason": "蒸馏启动即启用（用户授权）：市场反应预演场景，阶段1机制清单已完成",
+      "updated_at": "2026-08-09T22:45:28"
+    },
+    "hedge-fund": {
+      "enabled": true,
+      "lifecycle": "shadow",
+      "reason": "run_cycle 端到端验证通过；待投研晋升门（依赖数据与多 Agent 稳定性，最后升）",
+      "updated_at": "2026-08-10T23:47:47"
+    }
+  },
+  "lifecycles": {
+    "active": [
+      "bug-intake",
+      "cangjie-thinking-distiller",
+      "code-review",
+      "darwin-runbook",
+      "debate-protocol",
+      "decision-review-loop",
+      "graham-dodd-security-analysis",
+      "grill-me",
+      "humanizer-zh",
+      "intake-control-plane",
+      "kimi-design-skill",
+      "kimi-slides",
+      "kimi-webbridge",
+      "legal-risk-assessment",
+      "manual-gates",
+      "market-rehearsal",
+      "math-model-selector",
+      "mckinsey-structured-thinking",
+      "md-to-pdf",
+      "metaskill-creator",
+      "nuwa-runbook",
+      "process-doc",
+      "repo-intake-and-plan",
+      "research",
+      "scientific-problem-selection",
+      "skill-creator",
+      "skill-pipeline-orchestrator",
+      "skill-publisher",
+      "skill-register",
+      "skill-router",
+      "to-spec",
+      "to-tickets",
+      "trading-decision-workflow",
+      "webapp-building",
+      "xlsx"
+    ],
+    "shadow": [
+      "hedge-fund",
+      "speech",
+      "transcribe"
+    ],
+    "deprecated": [
+      "ad-creative",
+      "automation",
+      "binding",
+      "blueprint",
+      "campaign-plan",
+      "canvas",
+      "churn-prevention",
+      "content-research-writer",
+      "copy-editing",
+      "copywriting",
+      "daily-report",
+      "daimon-widget-cards",
+      "docx",
+      "image-ocr-vision-provider",
+      "memory-widget",
+      "pdf",
+      "pricing-strategy",
+      "repo-agent-workflow",
+      "saas-metrics-coach",
+      "seaborn-visualization",
+      "seo-audit",
+      "shortdrama-video-generation",
+      "widget",
+      "widgetdesign"
+    ],
+    "retired": []
+  },
+  "active": [
+    "bug-intake",
+    "cangjie-thinking-distiller",
+    "code-review",
+    "darwin-runbook",
+    "debate-protocol",
+    "decision-review-loop",
+    "graham-dodd-security-analysis",
+    "grill-me",
+    "humanizer-zh",
+    "intake-control-plane",
+    "kimi-design-skill",
+    "kimi-slides",
+    "kimi-webbridge",
+    "legal-risk-assessment",
+    "manual-gates",
+    "market-rehearsal",
+    "math-model-selector",
+    "mckinsey-structured-thinking",
+    "md-to-pdf",
+    "metaskill-creator",
+    "nuwa-runbook",
+    "process-doc",
+    "repo-intake-and-plan",
+    "research",
+    "scientific-problem-selection",
+    "skill-creator",
+    "skill-pipeline-orchestrator",
+    "skill-publisher",
+    "skill-register",
+    "skill-router",
+    "to-spec",
+    "to-tickets",
+    "trading-decision-workflow",
+    "webapp-building",
+    "xlsx"
+  ],
+  "shadow": [
+    "hedge-fund",
+    "speech",
+    "transcribe"
+  ],
+  "deprecated": [
+    "ad-creative",
+    "automation",
+    "binding",
+    "blueprint",
+    "campaign-plan",
+    "canvas",
+    "churn-prevention",
+    "content-research-writer",
+    "copy-editing",
+    "copywriting",
+    "daily-report",
+    "daimon-widget-cards",
+    "docx",
+    "image-ocr-vision-provider",
+    "memory-widget",
+    "pdf",
+    "pricing-strategy",
+    "repo-agent-workflow",
+    "saas-metrics-coach",
+    "seaborn-visualization",
+    "seo-audit",
+    "shortdrama-video-generation",
+    "widget",
+    "widgetdesign"
+  ],
+  "retired": [],
+  "enabled": [
+    "bug-intake",
+    "cangjie-thinking-distiller",
+    "code-review",
+    "darwin-runbook",
+    "debate-protocol",
+    "decision-review-loop",
+    "graham-dodd-security-analysis",
+    "grill-me",
+    "humanizer-zh",
+    "intake-control-plane",
+    "kimi-design-skill",
+    "kimi-slides",
+    "kimi-webbridge",
+    "legal-risk-assessment",
+    "manual-gates",
+    "market-rehearsal",
+    "math-model-selector",
+    "mckinsey-structured-thinking",
+    "md-to-pdf",
+    "metaskill-creator",
+    "nuwa-runbook",
+    "process-doc",
+    "repo-intake-and-plan",
+    "research",
+    "scientific-problem-selection",
+    "skill-creator",
+    "skill-pipeline-orchestrator",
+    "skill-publisher",
+    "skill-register",
+    "skill-router",
+    "to-spec",
+    "to-tickets",
+    "trading-decision-workflow",
+    "webapp-building",
+    "xlsx"
+  ],
+  "needs_review": [
+    "hedge-fund",
+    "speech",
+    "transcribe"
+  ],
+  "archived": [
+    "ad-creative",
+    "automation",
+    "binding",
+    "blueprint",
+    "campaign-plan",
+    "canvas",
+    "churn-prevention",
+    "content-research-writer",
+    "copy-editing",
+    "copywriting",
+    "daily-report",
+    "daimon-widget-cards",
+    "docx",
+    "image-ocr-vision-provider",
+    "memory-widget",
+    "pdf",
+    "pricing-strategy",
+    "repo-agent-workflow",
+    "saas-metrics-coach",
+    "seaborn-visualization",
+    "seo-audit",
+    "shortdrama-video-generation",
+    "widget",
+    "widgetdesign"
+  ]
+}

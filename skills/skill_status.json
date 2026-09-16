@@ -1,0 +1,560 @@
+{
+  "ad-creative": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\ad-creative",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "automation": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\automation",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "binding": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\binding",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "blueprint": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\blueprint",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "bug-intake": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\bug-intake",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "campaign-plan": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\campaign-plan",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "cangjie-thinking-distiller": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\cangjie-thinking-distiller",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "canvas": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\canvas",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "churn-prevention": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\churn-prevention",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "code-review": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\code-review",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "content-research-writer": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\content-research-writer",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "copy-editing": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\copy-editing",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "copywriting": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\copywriting",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "daily-report": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\daily-report",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "daimon-widget-cards": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\daimon-widget-cards",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "darwin-runbook": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\darwin-runbook",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "debate-protocol": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\debate-protocol",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "decision-review-loop": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\decision-review-loop",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "docx": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\docx",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "graham-dodd-security-analysis": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\graham-dodd-security-analysis",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "grill-me": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\grill-me",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "hedge-fund": {
+    "status": "candidate",
+    "lifecycle": "shadow",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\hedge-fund",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "humanizer-zh": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\humanizer-zh",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "image-ocr-vision-provider": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\image-ocr-vision-provider",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "intake-control-plane": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\intake-control-plane",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "kimi-design-skill": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\kimi-design-skill",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "kimi-slides": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\kimi-slides",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "kimi-webbridge": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\kimi-webbridge",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "legal-risk-assessment": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\legal-risk-assessment",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "manual-gates": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\manual-gates",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "market-rehearsal": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\market-rehearsal",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "math-model-selector": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\math-model-selector",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "mckinsey-structured-thinking": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\mckinsey-structured-thinking",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "md-to-pdf": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\md-to-pdf",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "memory-widget": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\memory-widget",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "metaskill-creator": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\metaskill-creator",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "nuwa-runbook": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\nuwa-runbook",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "pdf": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\pdf",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "pricing-strategy": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\pricing-strategy",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "process-doc": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\process-doc",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "repo-agent-workflow": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\repo-agent-workflow",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "repo-intake-and-plan": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\repo-intake-and-plan",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "research": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\research",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "saas-metrics-coach": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\saas-metrics-coach",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "scientific-problem-selection": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\scientific-problem-selection",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "seaborn-visualization": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\seaborn-visualization",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "seo-audit": {
+    "status": "candidate",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\seo-audit",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "shortdrama-video-generation": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\shortdrama-video-generation",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "skill-creator": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\skill-creator",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "skill-pipeline-orchestrator": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\skill-pipeline-orchestrator",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "skill-publisher": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\skill-publisher",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "skill-register": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\skill-register",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "skill-router": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\skill-router",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "speech": {
+    "status": "candidate",
+    "lifecycle": "shadow",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\speech",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "to-spec": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\to-spec",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "to-tickets": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\to-tickets",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "trading-decision-workflow": {
+    "status": "candidate",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\trading-decision-workflow",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "transcribe": {
+    "status": "candidate",
+    "lifecycle": "shadow",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\transcribe",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "webapp-building": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\webapp-building",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "widget": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\widget",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "widgetdesign": {
+    "status": "quarantine",
+    "lifecycle": "deprecated",
+    "risk": "needs-review",
+    "path": "04_技能包\\skills-shared-candidate\\widgetdesign",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  },
+  "xlsx": {
+    "status": "quarantine",
+    "lifecycle": "active",
+    "risk": "normal",
+    "path": "04_技能包\\skills-shared-candidate\\xlsx",
+    "use_count": 0,
+    "last_used": null,
+    "evidence": []
+  }
+}

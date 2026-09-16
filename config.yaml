@@ -1,0 +1,91 @@
+# agentos-hub 配置（所有路径相对本文件解析，不焊死绝对路径）
+schema: agentos-hub/config/v1
+
+name: agentos-hub
+version: 1.0.0
+
+# 四层结构
+layers:
+  core: core/Agent_OS_Core     # 治理核：准入/风险分级/宪法/审批/校验/恢复
+  engine:
+    memory: engine/memory      # 经验记忆引擎（记录/检索/蒸馏/学习样本）
+    knowledge: engine/knowledge # 知识库（quarantine -> trusted 晋升）
+    gates: skills/manual-gates # manual-gates 27 节点门禁（正本）
+  skills: skills               # 技能资产（正本）
+  compat:                      # 兼容层：旧名 -> 新位置
+    "04_技能包": skills
+
+# 记忆引擎
+memory:
+  dir: data/memory                   # JSONL 为真相源，SQLite 为可重建索引
+  jsonl: data/memory/memory.jsonl
+  index: data/memory/memory_index.sqlite
+  vector: data/memory/memory_vector.sqlite
+
+# 知识库
+knowledge:
+  dir: data/knowledge
+  meta: data/knowledge/meta.jsonl
+  index: data/knowledge/index.sqlite
+  trusted_dir: data/knowledge/cases
+  quarantine_dir: data/knowledge/quarantine
+
+# 技能路由
+skills_config:
+  registry: skills/active_skills.json
+  categories:
+    active: active
+    shadow: shadow
+  match_fields: [name, description]      # 同时匹配中文名/描述（修复原版只匹配英文名）
+  max_results: 20
+
+# 门禁
+gates:
+  canonical: skills/manual-gates/scripts/manual_mcp
+  cli: skills/manual-gates/scripts/gate.py
+  roles: [strategy, design, data_ai, planning, dev, qa, ops]
+
+# 知识图谱（codebase-memory-mcp）
+#
+# 查找顺序（见 hub.py graph_candidates）：
+#   1) bundled        —— 包内自带，保证可独立带走
+#   2) 约定位置        —— tools/codebase-memory-mcp/bin/
+#   3) 环境变量        —— CODEBASE_MEMORY_MCP_EXE
+#   4) cli            —— 系统安装位置
+#   5) ~/.local/bin   —— 默认系统安装
+#
+# 任一路径不存在会自动尝试下一个；全都不存在则图谱降级为 0 命中，
+# 不影响其余四项能力（见 hub.py graph_call 的结构化错误返回）。
+graph:
+  provider: codebase-memory-mcp
+  enabled: true
+  bundled: tools/codebase-memory-mcp/bin/codebase-memory-mcp.exe
+  cli: C:/Users/sundh/.local/bin/codebase-memory-mcp.exe
+  # 包内自带的索引缓存（含已建好的项目图谱，66.9MB）
+  cache: tools/codebase-memory-mcp/cache
+
+# 任务分级 -> 深度策略（与 core/policy/depth_policy 对齐）
+# 由 Agent_OS_Core.policy.depth_policy 提供，此处只做展示
+
+# 宪法层与受保护路径
+#
+# 为什么要有这一段：
+#   宪法校验器（core/Agent_OS_Core/constitution/validator.py）内部的
+#   受保护路径判定以 CORE_DIR.parent 为基准。源仓库里 Agent_OS_Core 在根目录，
+#   基准正好等于仓库根；打包成 HUB 后它挪到了 core/ 下，基准变成 core/，
+#   前缀永远对不上 —— 实测 02_执行手册 / .env 都判成了 ALLOW。
+#
+#   宪法目录本身不受影响（那条判定用绝对路径，仍然有效），
+#   失效的只是"额外受保护路径"。所以在这里按 HUB 根重新声明一遍。
+#
+#   hub.constitution_check 会同时取两边结论：任一为 BLOCK 即 BLOCK。
+#   这样既补上了缺口，又不用改动宪法目录里的任何文件。
+constitution:
+  # 相对 HUB 根解析；目录名以 / 结尾表示整棵子树
+  protected_paths:
+    - "core/Agent_OS_Core/constitution/"   # 宪法层（校验器已覆盖，此处双保险）
+    - "skills/manual-gates/"               # 门禁结构：7阶段27节点，禁止改
+    - "data/knowledge/cases/"              # 已采信的证据链
+    - "data/memory/"                       # 记忆真相源
+    - ".git/"
+    - ".env"

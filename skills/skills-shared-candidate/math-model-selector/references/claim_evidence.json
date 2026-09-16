@@ -1,0 +1,704 @@
+{
+  "schema_version": "1.0",
+  "status": "review",
+  "evidence_levels": {
+    "direct": "原文、权威教材、官方文档直接支撑该 claim",
+    "supported": "来源支撑核心逻辑，但本卡做了工程归纳或概括",
+    "engineering_inference": "工程迁移推论，不计入 S/A 信源背书"
+  },
+  "claims": [
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "formula",
+      "claim_text": "P(H|D) = P(D|H)P(H) / P(D)",
+      "evidence_level": "direct",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST/SEMATECH e-Handbook, 8.1.10 Bayesian methodology, Bayes formula section.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "assumption",
+      "claim_text": "先验可定义",
+      "evidence_level": "direct",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology, prior distribution discussion.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "assumption",
+      "claim_text": "似然模型合理",
+      "evidence_level": "direct",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology, likelihood and posterior model discussion.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "assumption",
+      "claim_text": "观测数据与建模变量一致",
+      "evidence_level": "supported",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology relates observed data, likelihood and posterior; variable-consistency phrasing is a modeling summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "failure_mode",
+      "claim_text": "先验支配结论",
+      "evidence_level": "direct",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology, disadvantages of Bayesian approach.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "failure_mode",
+      "claim_text": "似然函数错误",
+      "evidence_level": "supported",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology depends on likelihood model selection; wrong likelihood is a supported modeling failure.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "bayesian-inference",
+      "claim_type": "failure_mode",
+      "claim_text": "证据非独立却按独立处理",
+      "evidence_level": "supported",
+      "source_url": "https://www.itl.nist.gov/div898/handbook/apr/section1/apr1a.htm",
+      "source_locator": "NIST Bayesian methodology supports model-dependence risk; independence error is a probabilistic modeling inference.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "formula",
+      "claim_text": "预测 x_hat_k^- = F_k x_hat_{k-1} + B_k u_k；更新 x_hat_k = x_hat_k^- + K_k(z_k - H_k x_hat_k^-)",
+      "evidence_level": "direct",
+      "source_url": "https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction",
+      "source_locator": "Kalman 1960, Journal of Basic Engineering, Vol. 82, Issue 1, pp. 35-45, linear filtering and prediction equations.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "assumption",
+      "claim_text": "系统近似线性",
+      "evidence_level": "direct",
+      "source_url": "https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction",
+      "source_locator": "Kalman 1960 title and model setting: linear filtering and prediction problems.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "assumption",
+      "claim_text": "噪声近似高斯",
+      "evidence_level": "supported",
+      "source_url": "https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction",
+      "source_locator": "Kalman filtering optimality is commonly derived under Gaussian/second-moment noise models; exact card wording is a standard-state-estimation summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "assumption",
+      "claim_text": "过程和观测噪声参数可估",
+      "evidence_level": "supported",
+      "source_url": "https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction",
+      "source_locator": "Kalman filtering covariance update requires process/measurement uncertainty representation; exact engineering phrasing is inferred.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "failure_mode",
+      "claim_text": "噪声协方差设错",
+      "evidence_level": "supported",
+      "source_url": "https://asmedigitalcollection.asme.org/fluidsengineering/article/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction",
+      "source_locator": "Kalman filter gain and covariance equations depend on uncertainty models; wrong covariance failure is an engineering consequence.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "failure_mode",
+      "claim_text": "旧观测污染",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Not directly sourced from Kalman 1960; industrial implementation risk from stale sensor data.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "kalman-filter",
+      "claim_type": "failure_mode",
+      "claim_text": "模型漂移未重估",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Model-drift monitoring risk inferred from production state-estimation practice; not directly sourced from Kalman 1960.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "formula",
+      "claim_text": "ρ = λ/μ；L = ρ/(1-ρ)；W = 1/(μ-λ)",
+      "evidence_level": "direct",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "Oxford Applied Probability lecture notes, Lecture 13/14, M/M/1 queues, traffic intensity and stationary analysis.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "assumption",
+      "claim_text": "到达服从泊松过程",
+      "evidence_level": "direct",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "Oxford lecture notes, M/M/1 definition: Poisson arrivals.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "assumption",
+      "claim_text": "服务时间指数分布",
+      "evidence_level": "direct",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "Oxford lecture notes, M/M/1 definition: exponential service times.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "assumption",
+      "claim_text": "单服务台",
+      "evidence_level": "direct",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "Oxford lecture notes, M/M/1 definition: one server queue.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "assumption",
+      "claim_text": "稳定条件 `λ < μ`",
+      "evidence_level": "direct",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "Oxford lecture notes, M/M/1 stationary distribution requires traffic intensity below 1.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "failure_mode",
+      "claim_text": "忽略峰值到达",
+      "evidence_level": "supported",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "M/M/1 assumes Poisson/stationary arrival process; peak bursts violate that modeling assumption.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "failure_mode",
+      "claim_text": "服务率估计过高",
+      "evidence_level": "supported",
+      "source_url": "https://www.stats.ox.ac.uk/~winkel/bs3a07l13-14.pdf",
+      "source_locator": "M/M/1 performance formulas depend on service rate μ; overestimating μ underestimates utilization and waiting.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "queueing-mm1",
+      "claim_type": "failure_mode",
+      "claim_text": "队列无限导致内存风险",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "M/M/1 mathematical infinite-buffer idealization mapped to software memory risk; not directly sourced from the lecture claim.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "formula",
+      "claim_text": "MDP 五元组 (S,A,P,R,γ)；Vπ(s)=Eπ[Σ γ^t R_t | S_0=s]",
+      "evidence_level": "direct",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto, Reinforcement Learning: An Introduction, 2nd ed., Chapter 3, finite Markov decision processes.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "assumption",
+      "claim_text": "转移近似马尔可夫",
+      "evidence_level": "direct",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto, Chapter 3, Markov property and finite MDP formulation.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "assumption",
+      "claim_text": "状态表示足够",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto finite MDP formulation requires state representation carrying decision-relevant information; sufficiency wording is a modeling summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "assumption",
+      "claim_text": "奖励函数能表达目标",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto define reward as the objective signal in reinforcement learning; goal-expression wording is a supported summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "assumption",
+      "claim_text": "POMDP 状态不可完全观测，需要维护 belief",
+      "evidence_level": "direct",
+      "source_url": "https://www.pomdp.org/tutorial/index.html",
+      "source_locator": "POMDPs.org tutorial, Background on POMDPs, partial observability and belief-state framing.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "failure_mode",
+      "claim_text": "奖励黑客",
+      "evidence_level": "supported",
+      "source_url": "https://arxiv.org/abs/1606.06565",
+      "source_locator": "Amodei et al., Concrete Problems in AI Safety, reward hacking/specification gaming related discussion.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "failure_mode",
+      "claim_text": "状态遗漏",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Finite MDP methods depend on Markov state representation; omitted state variables break the modeling condition.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "mdp-pomdp",
+      "claim_type": "failure_mode",
+      "claim_text": "探索动作造成真实损害",
+      "evidence_level": "supported",
+      "source_url": "https://arxiv.org/abs/1606.06565",
+      "source_locator": "Amodei et al., Concrete Problems in AI Safety, safe exploration problem.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "formula",
+      "claim_text": "V(s)=min_a { c(s,a)+γ V(s') } 或 V(s)=max_a { r(s,a)+γ V(s') }",
+      "evidence_level": "direct",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto, 2nd ed., Chapter 4 Dynamic Programming, Bellman equations.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "assumption",
+      "claim_text": "最优子结构",
+      "evidence_level": "supported",
+      "source_url": "https://onlinelibrary.wiley.com/doi/book/10.1002/9780470316887",
+      "source_locator": "Puterman, Markov Decision Processes: Discrete Stochastic Dynamic Programming, dynamic programming decomposition of stochastic decision problems.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "assumption",
+      "claim_text": "重叠子问题",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto Chapter 4 reuses value functions over states; overlapping subproblem wording is an algorithmic DP summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "assumption",
+      "claim_text": "状态空间可枚举或可近似",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Sutton & Barto, Chapter 4 Dynamic Programming, tabular dynamic programming assumes enumerable state/action models; approximation is an engineering extension.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "failure_mode",
+      "claim_text": "状态爆炸无法压缩",
+      "evidence_level": "direct",
+      "source_url": "https://web.mit.edu/15.053/www/AMP-Chapter-11.pdf",
+      "source_locator": "MIT dynamic programming notes, discussion of curse of dimensionality in dynamic programming.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "failure_mode",
+      "claim_text": "状态定义不完整",
+      "evidence_level": "supported",
+      "source_url": "https://incompleteideas.net/book/the-book-2nd.html",
+      "source_locator": "Dynamic programming over MDPs depends on the state representation and transition model; incomplete state definitions violate this modeling basis.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "failure_mode",
+      "claim_text": "递推边界错",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Implementation risk inferred from applying recurrence equations; not directly sourced as a textbook limitation statement.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "dynamic-programming",
+      "claim_type": "failure_mode",
+      "claim_text": "局部阶段目标替代全局目标",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Objective-decomposition implementation risk inferred from engineering use of DP; not directly sourced as a textbook limitation statement.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "formula",
+      "claim_text": "PR(u) = (1-d)/N + d Σ PR(v)/L(v)",
+      "evidence_level": "direct",
+      "source_url": "http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf",
+      "source_locator": "Page et al., The PageRank Citation Ranking: Bringing Order to the Web, Stanford technical report 1999-66, PageRank formula/random-surfer model.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "assumption",
+      "claim_text": "链接代表推荐或依赖",
+      "evidence_level": "direct",
+      "source_url": "http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf",
+      "source_locator": "Page et al. motivate PageRank as citation/link based ranking.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "assumption",
+      "claim_text": "图结构可信",
+      "evidence_level": "supported",
+      "source_url": "http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf",
+      "source_locator": "PageRank relies on link graph structure as ranking evidence; trustworthiness wording is a supported modeling assumption.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "assumption",
+      "claim_text": "阻尼系数合理",
+      "evidence_level": "direct",
+      "source_url": "http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf",
+      "source_locator": "Page et al., PageRank technical report, damping factor/random surfer formulation.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "failure_mode",
+      "claim_text": "垃圾链接操纵",
+      "evidence_level": "direct",
+      "source_url": "https://snap.stanford.edu/class/cs224w-readings/gyongyi06trustrank.pdf",
+      "source_locator": "Gyongyi, Garcia-Molina & Pedersen, TrustRank, VLDB 2004/2006 reading copy, web spam/link manipulation motivation.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "failure_mode",
+      "claim_text": "孤立高价值节点被低估",
+      "evidence_level": "supported",
+      "source_url": "http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf",
+      "source_locator": "PageRank score is driven by incoming links/random-surfer probability; isolated nodes receive little link-based evidence.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "pagerank",
+      "claim_type": "failure_mode",
+      "claim_text": "时间新鲜度缺失",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Temporal freshness is a modern ranking requirement not directly claimed in original PageRank report.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "formula",
+      "claim_text": "Nash：u_i(s_i*,s_-i*) ≥ u_i(s_i,s_-i*)；Stackelberg：领导者先选策略，跟随者最优响应",
+      "evidence_level": "direct",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash, Non-Cooperative Games, Annals of Mathematics 1951, equilibrium point definition.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "assumption",
+      "claim_text": "参与者、策略集、收益函数明确",
+      "evidence_level": "direct",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash 1951 game definition uses players, strategies and payoff functions.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "assumption",
+      "claim_text": "参与者目标可表达",
+      "evidence_level": "supported",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash 1951 expresses player objectives through payoff functions; target-expression wording is a supported summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "assumption",
+      "claim_text": "策略空间明确",
+      "evidence_level": "direct",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash 1951 game definition includes strategy sets for players.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "assumption",
+      "claim_text": "收益函数近似真实",
+      "evidence_level": "supported",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Payoff functions define preferences in Nash games; realism of payoff functions is a modeling-validation summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "assumption",
+      "claim_text": "Stackelberg 有行动顺序，领导者先行动",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~rjohari/teaching/notes/246_lecture7_2007.pdf",
+      "source_locator": "Stanford MS&E 246 Lecture 7, Stackelberg games, leader and follower sequence.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "failure_mode",
+      "claim_text": "激励错配",
+      "evidence_level": "supported",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash 1951 payoff-driven game formulation supports incentive/payoff dependence; exact engineering wording is summarized.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "failure_mode",
+      "claim_text": "局部最优伤害全局",
+      "evidence_level": "supported",
+      "source_url": "https://www.cs.vu.nl/~eliens/download/paper-Nash51.pdf",
+      "source_locator": "Nash equilibrium is defined by unilateral payoff stability, not necessarily global system optimum; wording is a supported game-theory summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "game-theory-nash-stackelberg",
+      "claim_type": "failure_mode",
+      "claim_text": "规则外行为无法约束",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Multi-agent engineering governance inference; not a direct game theory theorem.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "formula",
+      "claim_text": "min f0(x) s.t. fi(x)≤0, hi(x)=0；KKT 含原始可行、对偶可行、互补松弛、驻点条件",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, Convex Optimization, Chapter 4 and Chapter 5.5 optimality conditions/KKT.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "assumption",
+      "claim_text": "目标和约束满足凸性",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, Chapter 4, convex optimization problem definition.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "assumption",
+      "claim_text": "目标/约束满足凸性",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, Chapter 4, convex optimization problem definition.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "assumption",
+      "claim_text": "可行域非空",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, Chapter 4, feasibility and convex problem formulation.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "assumption",
+      "claim_text": "约束资格条件成立",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, Chapter 5.5, KKT conditions and constraint qualifications.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "failure_mode",
+      "claim_text": "把非凸误当凸",
+      "evidence_level": "direct",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Boyd & Vandenberghe, convex problem definition; KKT sufficiency depends on convexity.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "failure_mode",
+      "claim_text": "忽略硬约束",
+      "evidence_level": "supported",
+      "source_url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+      "source_locator": "Convex optimization problem formulation explicitly includes constraints; ignoring constraints violates the modeled feasible set.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "convex-optimization-kkt",
+      "claim_type": "failure_mode",
+      "claim_text": "目标函数权重拍脑袋",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Engineering modeling risk inferred in objective design; not directly sourced as a Boyd claim.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "formula",
+      "claim_text": "R_T = Tμ* - Σ E[r_t]；UCB argmax_i xbar_i + sqrt(2 ln t / n_i)",
+      "evidence_level": "direct",
+      "source_url": "https://tor-lattimore.com/downloads/book/book.pdf",
+      "source_locator": "Lattimore & Szepesvari, Bandit Algorithms, regret definition and UCB chapters.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "assumption",
+      "claim_text": "奖励可观测",
+      "evidence_level": "direct",
+      "source_url": "https://tor-lattimore.com/downloads/book/book.pdf",
+      "source_locator": "Bandit Algorithms, stochastic bandit setting observes rewards from selected arms.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "assumption",
+      "claim_text": "策略相对稳定",
+      "evidence_level": "supported",
+      "source_url": "https://tor-lattimore.com/downloads/book/book.pdf",
+      "source_locator": "Bandit Algorithms develops stochastic bandit regret under stable arm reward assumptions; non-stationary variants are treated separately.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "assumption",
+      "claim_text": "探索成本可承受",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Operational safety and cost assumption inferred for production use of bandit exploration; not directly sourced as a bandit theorem.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "failure_mode",
+      "claim_text": "短期噪声误导",
+      "evidence_level": "supported",
+      "source_url": "https://tor-lattimore.com/downloads/book/book.pdf",
+      "source_locator": "Confidence-bound and regret analysis account for uncertainty/noisy rewards; exact phrase is engineering summary.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "failure_mode",
+      "claim_text": "探索伤害生产",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Production-risk interpretation inferred from safe exploration concerns; not directly sourced as a bandit theorem.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "multi-armed-bandit",
+      "claim_type": "failure_mode",
+      "claim_text": "奖励设计偏离真实目标",
+      "evidence_level": "supported",
+      "source_url": "https://arxiv.org/abs/1606.06565",
+      "source_locator": "Amodei et al., Concrete Problems in AI Safety, specification/reward design failures.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "formula",
+      "claim_text": "无统一公式，通常定义主体集合 A、状态 s_i、行为规则 π_i、环境 E、交互函数 I",
+      "evidence_level": "supported",
+      "source_url": "https://pup-assets.imgix.net/onix/images/9780691190822/9780691190839.pdf?fm=pdf",
+      "source_locator": "Railsback & Grimm, Agent-Based and Individual-Based Modeling sample, autonomous agents, environment, interaction and design cycle.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "assumption",
+      "claim_text": "局部规则能代表真实行为",
+      "evidence_level": "supported",
+      "source_url": "https://www.railsback-grimm-abm-book.com/",
+      "source_locator": "Railsback & Grimm book site and sample, ABM design based on individual behavior rules.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "assumption",
+      "claim_text": "仿真环境足够接近",
+      "evidence_level": "supported",
+      "source_url": "https://pup-assets.imgix.net/onix/images/9780691190822/9780691190839.pdf?fm=pdf",
+      "source_locator": "Railsback & Grimm sample and book structure emphasize model design, implementation and analysis against the modeled system.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "assumption",
+      "claim_text": "参数校准合理",
+      "evidence_level": "supported",
+      "source_url": "https://www.railsback-grimm-abm-book.com/",
+      "source_locator": "Railsback & Grimm ABM practice emphasizes parameterization, analysis, sensitivity and testing.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "failure_mode",
+      "claim_text": "参数全靠拍脑袋",
+      "evidence_level": "supported",
+      "source_url": "https://www.railsback-grimm-abm-book.com/",
+      "source_locator": "Railsback & Grimm emphasize parameterization, analysis and sensitivity/testing in ABM practice.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "failure_mode",
+      "claim_text": "规则过拟合",
+      "evidence_level": "supported",
+      "source_url": "https://www.railsback-grimm-abm-book.com/",
+      "source_locator": "ABM model design and analysis guidance supports checking rules against observed behavior rather than overfitting local rules.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "failure_mode",
+      "claim_text": "仿真结果不可复现",
+      "evidence_level": "engineering_inference",
+      "source_url": "engineering_inference",
+      "source_locator": "Reproducibility is an engineering/test practice requirement inferred for ABM implementation.",
+      "reviewer_status": "accepted"
+    },
+    {
+      "model_id": "agent-based-model",
+      "claim_type": "failure_mode",
+      "claim_text": "局部规则遗漏关键约束",
+      "evidence_level": "supported",
+      "source_url": "https://www.railsback-grimm-abm-book.com/",
+      "source_locator": "ABM design guidance focuses on local rules and system analysis; missing key constraints is a supported model-design failure mode.",
+      "reviewer_status": "accepted"
+    }
+  ]
+}
