@@ -1741,6 +1741,95 @@ def _finish(checks: list[tuple[str, bool, str]], verbose: bool) -> int:
     return 1 if failed else 0
 
 
+# ---------------------------------------------------------------- 版本管理
+
+def _git(args, cwd=None):
+    """跑一条 git 命令，返回 (是否成功, 输出)。"""
+    try:
+        r = subprocess.run(
+            ["git", *args],
+            cwd=str(cwd or HUB),
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=120,
+        )
+    except FileNotFoundError:
+        return False, "未找到 git，请先安装 Git for Windows"
+    except Exception as e:
+        return False, f"{type(e).__name__}: {e}"
+    out = ((r.stdout or "") + (r.stderr or "")).strip()
+    return r.returncode == 0, out
+
+
+def version_info() -> dict[str, Any]:
+    """看当前版本与仓库状态（只读）。"""
+    try:
+        v = cfg().get("version", "")
+    except Exception:
+        v = ""
+
+    is_repo = (HUB / ".git").is_dir()
+    if not is_repo:
+        return {"ok": False, "version": v, "error": "尚未启用版本管理",
+                "hint": "在包根目录执行: git init"}
+
+    out: dict[str, Any] = {"ok": True, "version": v, "repo": str(HUB)}
+
+    ok, log = _git(["log", "--oneline", "-8"])
+    out["recent_commits"] = log.splitlines() if ok else []
+
+    ok, cnt = _git(["rev-list", "--count", "HEAD"])
+    out["commit_count"] = int(cnt) if (ok and cnt.isdigit()) else 0
+
+    ok, st = _git(["status", "--short"])
+    changed = [l for l in st.splitlines() if l.strip()] if ok else []
+    out["pending_changes"] = len(changed)
+    out["pending_files"] = changed[:15]
+
+    ok, br = _git(["rev-parse", "--abbrev-ref", "HEAD"])
+    out["branch"] = br if ok else ""
+
+    return out
+
+
+def version_record(message: str, add_all: bool = True) -> dict[str, Any]:
+    """把当前改动提交，记录一次迭代。
+
+    只做本地提交，不推送远程——推送需要你明确决定。
+    不是 git 仓库时给提示，不自动初始化（那是你的决定）。
+    """
+    msg = (message or "").strip()
+    if not msg:
+        return {"ok": False, "error": '需要一句说明，例如 -m "修复图谱检索中文匹配"'}
+
+    if not (HUB / ".git").is_dir():
+        return {"ok": False, "error": "尚未启用版本管理"}
+
+    if add_all:
+        ok, out = _git(["add", "-A"])
+        if not ok:
+            return {"ok": False, "error": f"暂存失败: {out[-200:]}"}
+
+    ok, st = _git(["status", "--short"])
+    staged = [l for l in st.splitlines() if l.strip()]
+    if not staged:
+        return {"ok": True, "recorded": False,
+                "note": "没有待记录的改动（工作区是干净的）"}
+
+    ok, out = _git(["commit", "-m", msg])
+    if not ok:
+        return {"ok": False, "error": f"提交失败: {out[-300:]}"}
+
+    ok2, cnt = _git(["rev-list", "--count", "HEAD"])
+    ok3, head = _git(["log", "--oneline", "-1"])
+    return {
+        "ok": True,
+        "recorded": True,
+        "files_changed": len(staged),
+        "commit": head,
+        "total_commits": int(cnt) if (ok2 and cnt.isdigit()) else None,
+    }
+
+
 # ---------------------------------------------------------------- CLI
 
 def _print(obj: Any, as_json: bool = False) -> None:
@@ -1826,6 +1915,12 @@ def main(argv: list[str] | None = None) -> int:
                       help="要检查的路径，可重复；不给则只做完整性自检")
     p_cs.set_defaults(func=lambda a: _print(
         constitution_check("", paths=a.path), a.json))
+
+    p_v = sub.add_parser("version", help="版本与迭代记录")
+    p_v.add_argument("-m", "--message", default="",
+                     help="记录一次迭代：把当前改动提交，附上这句说明")
+    p_v.set_defaults(func=lambda a: _print(
+        version_record(a.message) if a.message else version_info(), a.json))
 
     p_st = sub.add_parser("stats", help="记忆统计")
     p_st.set_defaults(func=lambda a: _print(memory_stats(), a.json))
