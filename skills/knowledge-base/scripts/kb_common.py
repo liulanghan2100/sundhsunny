@@ -1,16 +1,26 @@
 # -*- coding: utf-8 -*-
 import argparse
 import json
+import os
 import re
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
 
+# --- agentos-hub 适配：路径来自 config（经环境变量传入），与正本保持一致 ---
+# 原实现写死 ROOT/10_知识储备库，那是源仓库的目录名，本包没有。
 ROOT = Path(__file__).resolve().parents[3]
-KB_DIR = ROOT / "10_知识储备库"
-META_PATH = KB_DIR / "meta.jsonl"
-INDEX_PATH = KB_DIR / "index.sqlite"
+
+_ENV_KB = os.environ.get("AGENTOS_HUB_KB_DIR")
+KB_DIR = Path(_ENV_KB) if _ENV_KB else (ROOT / "data" / "knowledge")
+META_PATH = Path(os.environ.get("AGENTOS_HUB_KB_META") or (KB_DIR / "meta.jsonl"))
+INDEX_PATH = Path(os.environ.get("AGENTOS_HUB_KB_INDEX") or (KB_DIR / "index.sqlite"))
+
+_ENV_TRUSTED = os.environ.get("AGENTOS_HUB_KB_TRUSTED")
+_ENV_QUARANTINE = os.environ.get("AGENTOS_HUB_KB_QUARANTINE")
+TRUSTED_DIR = Path(_ENV_TRUSTED) if _ENV_TRUSTED else (KB_DIR / "cases")
+QUARANTINE_DIR = Path(_ENV_QUARANTINE) if _ENV_QUARANTINE else (KB_DIR / "quarantine")
 
 TYPE_DIRS = {
     "skill": "skills",
@@ -36,8 +46,10 @@ def slugify(text: str) -> str:
 
 
 def ensure_dirs() -> None:
-    for name in ["quarantine", "skills", "playbooks", "cases", "references", "reports"]:
+    for name in ["skills", "playbooks", "references", "reports"]:
         (KB_DIR / name).mkdir(parents=True, exist_ok=True)
+    TRUSTED_DIR.mkdir(parents=True, exist_ok=True)
+    QUARANTINE_DIR.mkdir(parents=True, exist_ok=True)
     if not META_PATH.exists():
         META_PATH.write_text("", encoding="utf-8")
 
@@ -72,8 +84,8 @@ def normalize_type(value: str) -> str:
 
 def target_dir(entry_type: str, status: str) -> Path:
     if status == "quarantine":
-        return KB_DIR / "quarantine"
-    return KB_DIR / TYPE_DIRS[entry_type]
+        return QUARANTINE_DIR
+    return TRUSTED_DIR / TYPE_DIRS[entry_type]
 
 
 def make_entry_id(title: str) -> str:

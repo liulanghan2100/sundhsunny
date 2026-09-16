@@ -80,6 +80,114 @@ def ensure_dir(p: Path) -> Path:
     return p
 
 
+# ---------------------------------------------------------------- 配置辅助
+
+_COMPAT_CACHE: dict[str, str] | None = None
+
+
+def _compat_map() -> dict[str, str]:
+    """旧目录名 -> 新位置 的映射（config.layers.compat）。
+
+    源库里技能目录叫 `04_技能包`，打包后叫 `skills`。
+    任务描述或历史文档里出现旧名时，靠它改写到位，
+    否则会出现"指着一个不存在的目录谈事"。
+    """
+    global _COMPAT_CACHE
+    if _COMPAT_CACHE is None:
+        try:
+            raw = (cfg().get("layers") or {}).get("compat") or {}
+            _COMPAT_CACHE = {str(k): str(v) for k, v in raw.items()}
+        except Exception:
+            _COMPAT_CACHE = {}
+    return _COMPAT_CACHE
+
+
+def compat_rewrite(text: str) -> str:
+    """把文本里的旧目录名改成新位置。没有旧名时原样返回。"""
+    m = _compat_map()
+    if not m or not text:
+        return text
+    out = str(text)
+    for old, new in m.items():
+        if old and old in out:
+            out = out.replace(old, new)
+    return out
+
+
+def _kb_dirs() -> dict[str, Path]:
+    """知识库各目录（config.knowledge）。
+
+    返回 dir / trusted_dir / quarantine_dir 三项的绝对路径。
+    trusted 与 quarantine 是两个"证据等级"的存放处：
+    新录入的先进 quarantine，人工确认后才晋升到 trusted。
+    """
+    kd = cfg().get("knowledge") or {}
+    out: dict[str, Path] = {}
+    for key in ("dir", "trusted_dir", "quarantine_dir", "meta", "index"):
+        v = kd.get(key)
+        if v:
+            out[key] = path_of(v)
+    if "dir" not in out:
+        out["dir"] = HUB / "data" / "knowledge"
+    # 兜底：没配就按约定推导
+    out.setdefault("trusted_dir", out["dir"] / "cases")
+    out.setdefault("quarantine_dir", out["dir"] / "quarantine")
+    return out
+
+
+def _match_fields() -> tuple[str, ...]:
+    """技能路由匹配哪些字段（config.skills_config.match_fields）。
+
+    注意：`aliases`（中文别名表）无论配置怎么写都会保留。
+    理由：像 cangjie-thinking-distiller 这种技能，名字和描述都是英文，
+    中文用户只能靠别名命中 —— 去掉它等于中文搜索失效
+    （实测"仓颉"会从 1 个命中掉到 0 个）。
+    """
+    fields: list[str] = []
+    try:
+        v = (cfg().get("skills_config") or {}).get("match_fields")
+        if isinstance(v, (list, tuple)) and v:
+            fields = [str(x) for x in v]
+    except Exception:
+        fields = []
+
+    if not fields:
+        fields = ["name", "description"]
+
+    # 别名表是中文可用的兜底，永远参与
+    if "aliases" not in fields:
+        fields.append("aliases")
+    return tuple(fields)
+
+
+def _shadow_category() -> str:
+    """shadow 分类在登记表里的键名（config.skills_config.categories.shadow）。"""
+    try:
+        cats = (cfg().get("skills_config") or {}).get("categories") or {}
+        return str(cats.get("shadow") or "shadow")
+    except Exception:
+        return "shadow"
+
+
+def _gate_canonical() -> Path:
+    """门禁正本目录（config.gates.canonical）。"""
+    try:
+        v = (cfg().get("gates") or {}).get("canonical")
+        if v:
+            return path_of(v)
+    except Exception:
+        pass
+    return HUB / "skills" / "manual-gates" / "scripts" / "manual_mcp"
+
+
+def _graph_provider() -> str:
+    """图谱提供方标识（config.graph.provider），用于自检与提示。"""
+    try:
+        return str((cfg().get("graph") or {}).get("provider") or "codebase-memory-mcp")
+    except Exception:
+        return "codebase-memory-mcp"
+
+
 # ---------------------------------------------------------------- 惰性加载
 
 def _load_core():
@@ -195,14 +303,16 @@ def graph_candidates() -> list[Path]:
 
 def graph_available() -> tuple[bool, str]:
     g = cfg().get("graph") or {}
+    provider = _graph_provider()
     if not g.get("enabled"):
-        return False, "未启用"
+        return False, f"{provider} 未启用"
     cands = graph_candidates()
     for p in cands:
         if p.exists():
             src = "包内自带" if "tools" in str(p).replace("\\", "/") else "系统安装"
             return True, str(p) + f" ({src})"
-    return False, "未找到可执行文件，位置尝试: " + "; ".join(str(p) for p in cands)
+    return False, (f"{provider} 未找到可执行文件，位置尝试: "
+                   + "; ".join(str(p) for p in cands))
 
 
 def _resolve_project_arg(args: dict) -> dict:
@@ -597,12 +707,16 @@ def recall_knowledge(query: str, limit: int = 5) -> dict[str, Any]:
     q = base / "query.py"
     if not q.exists():
         return {"ok": False, "error": f"未找到 query.py: {q}"}
-    # 知识库目录环境变量驱动
-    kd = cfg()["knowledge"]
+    # 知识库目录：全部来自 config.knowledge（含 trusted/quarantine）
+    kd = _kb_dirs()
     env = dict(os.environ)
-    env["AGENTOS_HUB_KB_DIR"] = str(path_of(kd["dir"]))
-    env["AGENTOS_HUB_KB_META"] = str(path_of(kd["meta"]))
-    env["AGENTOS_HUB_KB_INDEX"] = str(path_of(kd["index"]))
+    env["AGENTOS_HUB_KB_DIR"] = str(kd["dir"])
+    env["AGENTOS_HUB_KB_META"] = str(kd.get("meta") or (kd["dir"] / "meta.jsonl"))
+    env["AGENTOS_HUB_KB_INDEX"] = str(kd.get("index") or (kd["dir"] / "index.sqlite"))
+    # 这两个目录原本只在 config 里写着、没人读；脚本自己拼 KB_DIR/xxx。
+    # 现在显式传下去，改配置就能改位置。
+    env["AGENTOS_HUB_KB_TRUSTED"] = str(kd["trusted_dir"])
+    env["AGENTOS_HUB_KB_QUARANTINE"] = str(kd["quarantine_dir"])
     fts = _kb_query_text(query)
     if not fts:
         return {"ok": True, "count": 0, "entries": []}
@@ -803,8 +917,13 @@ def route_skills(scope: str = "active", keyword: str = "",
     except Exception:
         return []
 
-    cat = s["categories"].get(scope, scope)
-    names = reg.get(cat) or []
+    # 分类名从配置取（过去 shadow 只在 config 里写着，代码不认）
+    cats = s.get("categories") or {}
+    if scope == "shadow":
+        cat = _shadow_category()
+    else:
+        cat = cats.get(scope, scope)
+    names = list(reg.get(cat) or [])
     if not names and isinstance(reg.get("overrides"), dict):
         # 回退：从 overrides 里按 enabled 推导
         for k, v in reg["overrides"].items():
@@ -838,15 +957,21 @@ def route_skills(scope: str = "active", keyword: str = "",
         except Exception:
             alias = {}
 
+    # 匹配哪些字段由 config 决定（原来写死 name+description+aliases）
+    fields = _match_fields()
+
     kw = (keyword or query or "").strip().lower()
     out = []
     for n in names:
         d = desc.get(n, "")
         a = alias.get(n, "")
-        if (not kw
-                or kw in n.lower()
-                or kw in d.lower()
-                or kw in a.lower()):
+        pool = {
+            "name": n,
+            "description": d,
+            "aliases": a,
+        }
+        hay = " ".join(pool.get(f, "") for f in fields).lower()
+        if not kw or kw in hay:
             out.append({"name": n, "description": (d or a)[:180], "aliases": a[:120]})
     return out[: s.get("max_results", 20)]
 
@@ -954,7 +1079,8 @@ def route_skills_for_task(text, scope="active", limit=5):
     except Exception:
         return []
 
-    cat = s["categories"].get(scope, scope)
+    cats = s.get("categories") or {}
+    cat = _shadow_category() if scope == "shadow" else cats.get(scope, scope)
     names = list(reg.get(cat) or [])
     if not names:
         return []
@@ -1019,6 +1145,24 @@ def route_skills_for_task(text, scope="active", limit=5):
 
 def gate_cli() -> Path:
     return path_of(cfg()["gates"]["cli"])
+
+
+def gate_available() -> tuple[bool, str]:
+    """门禁是否可用：CLI 与正本目录都要在。
+
+    正本目录（config.gates.canonical）是 7 阶段 27 节点的定义所在；
+    CLI 只是调用它的桥。两者缺一都不能正常跑门禁。
+    """
+    cli = gate_cli()
+    canon = _gate_canonical()
+    missing = []
+    if not cli.exists():
+        missing.append(f"CLI 缺失: {cli}")
+    if not canon.is_dir():
+        missing.append(f"正本目录缺失: {canon}")
+    if missing:
+        return False, "；".join(missing)
+    return True, f"{cli} (正本 {canon.name})"
 
 
 def gate_call(role: str, tool: str, args: dict) -> dict[str, Any]:
@@ -1463,6 +1607,11 @@ def ask(request: str, project: str = "", use_graph: bool = True,
         level = "L3"
         depth = depth_policy("L3")
 
+    # 1.8) 兼容层：把任务里的旧目录名改成新位置
+    # 源库叫 04_技能包，包内叫 skills。历史文档或口述里常出现旧名，
+    # 不改写的话后续检索会指着一个不存在的目录。
+    request = compat_rewrite(request)
+
     # 2) 三源检索
     recall_result = recall(request, limit=5, use_graph=use_graph)
 
@@ -1789,6 +1938,87 @@ def _finish(checks: list[tuple[str, bool, str]], verbose: bool) -> int:
     return 1 if failed else 0
 
 
+# ---------------------------------------------------------------- 备用能力（engine/mcps）
+
+# 每个模块的用途（从代码里的工具定义归纳，不是 README 抄的）
+_MCP_PURPOSE = {
+    "capability_profile_mcp": ("能力画像", "定义能力画像、检查某动作是否被允许"),
+    "cognitive_intake_mcp": ("任务准入", "把请求分类成 A/B/C/D，建执行卡"),
+    "compiled_correction_mcp": ("纠正编译", "记录用户纠正并编译成检查规则"),
+    "completion_verifier_mcp": ("完成验证", "按证据验证完成度，签发证书"),
+    "control_plane_mcp": ("控制平面", "策略检查、自主权决策、审计事件"),
+    "dashboard_mcp": ("运行看板", "采集数据、生成看板 HTML"),
+    "failure_replay_mcp": ("失败复盘", "记录失败、蒸馏教训、建规避计划"),
+    "hook_runtime_mcp": ("钩子运行时", "工具调用前后、停止时的钩子链"),
+    "mandatory_runtime_hook_mcp": ("强制路由", "强制路由规划与合规校验"),
+    "memory_consolidation_mcp": ("记忆整理", "记忆分层、冲突检测、健康报告"),
+    "preflight_bundle_mcp": ("执行前检查", "统一预检并记录检查包"),
+    "runtime_integration_mcp": ("运行集成", "集成任务环、导出状态、建备份"),
+    "runtime_middleware_mcp": ("运行中间件", "按任务类别搭中间件栈"),
+    "side_effect_admission_mcp": ("副作用准入", "申请/校验准入票"),
+    "task_queue_mcp": ("任务队列", "队列状态、入队、自启动治理（20 个工具）"),
+}
+
+# 依赖额外的 sys.path 才能导入的模块
+_MCP_EXTRA_PATH = {
+    "task_queue_mcp": ("engine/memory", "core"),
+}
+
+
+def list_mcps(name: str = "") -> dict[str, Any]:
+    """列出 engine/mcps 下的备用模块（只读）。
+
+    这些模块主流程不经过，但都能独立启动。需要某个能力时，
+    先在这里查有没有现成的，再决定接入还是借鉴。
+    细节见 CAPABILITIES.md。
+    """
+    base = path_of("engine/mcps")
+    if not base.is_dir():
+        return {"ok": False, "error": f"未找到目录: {base}"}
+
+    items = []
+    for d in sorted(base.iterdir()):
+        if not d.is_dir() or d.name == "_shared" or d.name.startswith("."):
+            continue
+        if name and name.lower() not in d.name.lower():
+            continue
+
+        nfiles = sum(1 for f in d.rglob("*") if f.is_file())
+        size = sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
+        label, desc = _MCP_PURPOSE.get(d.name, ("", ""))
+
+        # 统计工具数（数 @mcp.tool 装饰的 def，避免真正 import）
+        ntools = 0
+        common = d / "common.py"
+        if common.is_file():
+            try:
+                txt = common.read_text(encoding="utf-8", errors="replace")
+                ntools = txt.count("@mcp.tool")
+            except Exception:
+                pass
+
+        item = {
+            "name": d.name,
+            "label": label,
+            "purpose": desc,
+            "tools": ntools,
+            "files": nfiles,
+            "kb": round(size / 1024, 1),
+            "used_by_entry": False,
+        }
+        extra = _MCP_EXTRA_PATH.get(d.name)
+        if extra:
+            item["extra_sys_path"] = list(extra)
+        items.append(item)
+
+    return {
+        "ok": True,
+        "note": "备用模块，主流程不经过；需要时独立启动，详见 CAPABILITIES.md",
+        "count": len(items),
+        "mcps": items,
+    }
+
+
 # ---------------------------------------------------------------- 版本管理
 
 def _git(args, cwd=None):
@@ -1963,6 +2193,10 @@ def main(argv: list[str] | None = None) -> int:
                       help="要检查的路径，可重复；不给则只做完整性自检")
     p_cs.set_defaults(func=lambda a: _print(
         constitution_check("", paths=a.path), a.json))
+
+    p_mc = sub.add_parser("mcps", help="备用能力模块（主流程不经过）")
+    p_mc.add_argument("name", nargs="?", default="", help="按名字过滤，如 queue")
+    p_mc.set_defaults(func=lambda a: _print(list_mcps(a.name), a.json))
 
     p_v = sub.add_parser("version", help="版本与迭代记录")
     p_v.add_argument("-m", "--message", default="",

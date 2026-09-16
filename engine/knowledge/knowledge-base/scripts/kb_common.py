@@ -8,12 +8,28 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-# --- agentos-hub 适配：知识库目录环境变量驱动（原实现写死 10_知识储备库）
-ROOT = Path(__file__).resolve().parents[3]
+# --- agentos-hub 适配：路径全部来自 config.yaml，经环境变量传入 ---
+#
+# 单一真相源：config.yaml 定义所有路径 -> hub.py 读取后用环境变量传给本脚本。
+# 本文件只在"拿不到环境变量"时才自己兜底（比如直接命令行调用）。
+#
+# 注意 parents[4]：本文件在
+#   <包根>/engine/knowledge/knowledge-base/scripts/kb_common.py
+# 所以包根要往上数 4 层。写成 parents[3] 会得到 engine/，
+# 兜底路径就成了 engine/data/knowledge（不存在）——
+# 这是打包时引入的偏差，已修正。
+ROOT = Path(__file__).resolve().parents[4]
+
 _ENV_KB = os.environ.get("AGENTOS_HUB_KB_DIR")
 KB_DIR = Path(_ENV_KB) if _ENV_KB else (ROOT / "data" / "knowledge")
 META_PATH = Path(os.environ.get("AGENTOS_HUB_KB_META") or (KB_DIR / "meta.jsonl"))
 INDEX_PATH = Path(os.environ.get("AGENTOS_HUB_KB_INDEX") or (KB_DIR / "index.sqlite"))
+
+# 证据等级目录：新录入进 quarantine，人工确认后晋升到 trusted
+_ENV_TRUSTED = os.environ.get("AGENTOS_HUB_KB_TRUSTED")
+_ENV_QUARANTINE = os.environ.get("AGENTOS_HUB_KB_QUARANTINE")
+TRUSTED_DIR = Path(_ENV_TRUSTED) if _ENV_TRUSTED else (KB_DIR / "cases")
+QUARANTINE_DIR = Path(_ENV_QUARANTINE) if _ENV_QUARANTINE else (KB_DIR / "quarantine")
 
 TYPE_DIRS = {
     "skill": "skills",
@@ -39,8 +55,11 @@ def slugify(text: str) -> str:
 
 
 def ensure_dirs() -> None:
-    for name in ["quarantine", "skills", "playbooks", "cases", "references", "reports"]:
+    for name in ["skills", "playbooks", "references", "reports"]:
         (KB_DIR / name).mkdir(parents=True, exist_ok=True)
+    # 两个证据等级目录以配置为准（可能不在 KB_DIR 下）
+    TRUSTED_DIR.mkdir(parents=True, exist_ok=True)
+    QUARANTINE_DIR.mkdir(parents=True, exist_ok=True)
     if not META_PATH.exists():
         META_PATH.write_text("", encoding="utf-8")
 
@@ -74,9 +93,10 @@ def normalize_type(value: str) -> str:
 
 
 def target_dir(entry_type: str, status: str) -> Path:
+    """待审条目放 quarantine，已采信条目按类型分目录存到 trusted 下。"""
     if status == "quarantine":
-        return KB_DIR / "quarantine"
-    return KB_DIR / TYPE_DIRS[entry_type]
+        return QUARANTINE_DIR
+    return TRUSTED_DIR / TYPE_DIRS[entry_type]
 
 
 def make_entry_id(title: str) -> str:
