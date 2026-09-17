@@ -38,7 +38,7 @@ agentos-hub/
 | `requirements.txt` | 三个依赖：mcp / PyYAML / jsonschema | 换机器时 |
 | `README.md` | 快速上手 | 第一次用 |
 | `CHANGELOG.md` | 每版做了什么、为什么 | 想知道改了什么 |
-| `VERSION-MANIFEST.md` | 大文件指纹，用于核对完整性 | 换机器、怀疑文件被改动 |
+| `03-version-manifest.md` | 大文件指纹，用于核对完整性 | 换机器、怀疑文件被改动 |
 
 ---
 
@@ -75,7 +75,7 @@ engine/
 │   └── experience_memory_mcp/
 ├── knowledge/      知识库脚本
 │   └── knowledge-base/scripts/   (add / query / promote / report)
-└── mcps/           16 个功能模块
+└── mcps/           42 个功能模块
     └── _shared/    公共库
 ```
 

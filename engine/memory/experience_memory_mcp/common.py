@@ -26,7 +26,7 @@ from _shared.state import safe_project
 
 # --- agentos-hub 适配：记忆目录环境变量驱动（原实现硬编码 ROOT/09_投研）。
 # 未设置时回退自身目录，不依赖 cwd。
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]   # 包根（打包后每层多一级 engine/memory/）
 _ENV_DIR = os.environ.get("AGENTOS_HUB_MEMORY_DIR")
 MEMORY_DIR = Path(_ENV_DIR) if _ENV_DIR else (ROOT / "data" / "memory")
 MEMORY_FILE = Path(os.environ.get("AGENTOS_HUB_MEMORY_JSONL") or (MEMORY_DIR / "memory.jsonl"))

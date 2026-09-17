@@ -28,19 +28,29 @@ python hub.py ask "把 A 股日报生成自动化"
 
 ```
 agentos-hub/
-├── hub.py              唯一入口（11 个命令）
+├── hub.py              唯一入口（13 个命令）
 ├── config.yaml         所有路径配置
 ├── requirements.txt    依赖声明（不打包依赖）
+├── README.md           上手说明（本文件）
+├── CHANGELOG.md        版本记录
+│
+├── docs/               参考文档（索引见 docs/README.md）
+│   ├── 00-architecture.md      架构分析与整合建议
+│   ├── 01-directory.md         目录结构说明
+│   ├── 02-capabilities.md      备用能力清单
+│   ├── 03-version-manifest.md  大文件指纹
+│   └── 04-audit-2026-09-16.md  全包审计报告
+│
 ├── core/               治理核：准入 / 风险分级 / 宪法 / 审批 / 恢复
-├── engine/             引擎：记忆 / 知识库 / 16 个功能模块
+├── engine/             引擎：记忆 / 知识库 / 42 个功能模块
 ├── skills/             技能资产（35 个 active）
 ├── data/               运行时数据（jsonl 为真相源，sqlite 可重建）
 ├── tools/              代码图谱引擎与索引
 └── _archive/           历史备份
 ```
 
-**每个目录装了什么、命名为什么有个别不一致、换机器怎么处理，
-详见 [DIRECTORY.md](DIRECTORY.md)。**
+**想知道每个目录装了什么、备用能力怎么用、架构上有什么缺口，
+从 [docs/](docs/README.md) 进。**
 
 ## 设计取舍（相对 agentos-slim 的修正）
 

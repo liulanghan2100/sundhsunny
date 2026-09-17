@@ -17,10 +17,12 @@ from _shared.io import _loads as shared_loads
 from _shared.state import safe_project
 from _shared.io import _append_jsonl as shared_append_jsonl
 
-ROOT = Path(__file__).resolve().parents[2]
-MEMORY_DIR = ROOT / "09_投研" / "experience_memory"
-FAILURE_DIR = ROOT / "09_投研" / "failure_replay"
-CONSOLIDATION_DIR = ROOT / "09_投研" / "memory_consolidation"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+MEMORY_DIR = DATA_ROOT / "09_投研" / "experience_memory"
+FAILURE_DIR = DATA_ROOT / "09_投研" / "failure_replay"
+CONSOLIDATION_DIR = DATA_ROOT / "09_投研" / "memory_consolidation"
 CONSOLIDATED_FILE = CONSOLIDATION_DIR / "consolidated_memory.jsonl"
 CONFLICT_FILE = CONSOLIDATION_DIR / "memory_conflicts.jsonl"
 

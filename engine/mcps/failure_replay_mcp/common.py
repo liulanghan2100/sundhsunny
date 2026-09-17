@@ -19,8 +19,10 @@ from _shared.time import _now as shared_now
 from _shared.io import _loads as shared_loads
 from _shared.io import _append_jsonl as shared_append_jsonl
 
-ROOT = Path(__file__).resolve().parents[2]
-REPLAY_DIR = ROOT / "09_投研" / "failure_replay"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+REPLAY_DIR = DATA_ROOT / "09_投研" / "failure_replay"
 FAILURE_FILE = REPLAY_DIR / "failures.jsonl"
 LESSON_FILE = REPLAY_DIR / "distilled_lessons.jsonl"
 REPORT_DIR = REPLAY_DIR / "reports"

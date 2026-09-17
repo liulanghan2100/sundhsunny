@@ -19,11 +19,13 @@ from mcp.server.fastmcp import FastMCP
 from _shared.io import _json as shared_json
 from _shared.time import _now as shared_now
 
-ROOT = Path(__file__).resolve().parents[2]
-MCP_DIR = ROOT / "03_分工MCP"
-PROJECT_DIR = ROOT / "04_技能包" / "manual-gates" / "scripts" / "manual_mcp" / "projects"
-RESEARCH_DIR = ROOT / "09_投研"
-BACKUP_DIR = ROOT / "10_备份"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+MCP_DIR = DATA_ROOT / "03_分工MCP"
+PROJECT_DIR = DATA_ROOT / "04_技能包" / "manual-gates" / "scripts" / "manual_mcp" / "projects"
+RESEARCH_DIR = DATA_ROOT / "09_投研"
+BACKUP_DIR = DATA_ROOT / "10_备份"
 DASHBOARD_DIR = RESEARCH_DIR / "dashboard"
 REGISTRY_DIR = RESEARCH_DIR / "agent_os_registry"
 STABILITY_DIR = RESEARCH_DIR / "agent_os_stability"

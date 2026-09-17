@@ -17,8 +17,10 @@ from _shared.time import _now as shared_now
 from _shared.io import _loads as shared_loads
 from _shared.io import _append_jsonl as shared_append_jsonl
 
-ROOT = Path(__file__).resolve().parents[2]
-CORRECTION_DIR = ROOT / "09_投研" / "compiled_corrections"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+CORRECTION_DIR = DATA_ROOT / "09_投研" / "compiled_corrections"
 CORRECTION_FILE = CORRECTION_DIR / "corrections.jsonl"
 RULE_FILE = CORRECTION_DIR / "compiled_rules.jsonl"
 REPORT_DIR = CORRECTION_DIR / "reports"

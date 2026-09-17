@@ -35,29 +35,43 @@ from Agent_OS_Core.governance.owner_gate import validate_decision_for_task
 from Agent_OS_Core.policy.resource_lock_manager import ResourceLockManager, ResourceBusyError
 from Agent_OS_Core.policy.cost_budget_guard import CostBudgetGuard, CostBudgetExceeded
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
 
 
-def _find_named_dir(prefix: str, fallback: str) -> Path:
-    """Resolve the research dir deterministically.
+def _find_named_dir(prefix: str, canonical: str) -> Path:
+    """在运行时数据区定位目录，找不到就按规范名建一个。
 
-    Multiple "09_" dirs exist in this workspace (09_research sandbox,
-    09_投研 production, plus a mojibake duplicate). Plain iterdir() order is
-    filesystem-dependent, which let different server processes pick different
-    queue roots. Prefer the canonical production dir explicitly.
+    参数 canonical 可能是通配符形式（如 "03_*MCP"），
+    这里会剥掉通配符字符再用 —— 否则 Windows 建目录会报
+    WinError 123（文件名含非法字符）。
+
+    为什么不搜包根：打包后包根是源码区，不该往里写运行时数据。
     """
-    candidates = sorted(p for p in ROOT.iterdir() if p.is_dir() and p.name.startswith(prefix))
-    for path in candidates:
-        if path.name == "09_投研":
-            return path
-    if candidates:
-        return candidates[0]
-    matches = list(ROOT.glob(fallback))
-    return matches[0] if matches else ROOT / fallback.replace("*", "")
+    if not DATA_ROOT.is_dir():
+        DATA_ROOT.mkdir(parents=True, exist_ok=True)
 
+    # 规范名去掉通配符，作为建目录用的合法名
+    safe = canonical.replace("*", "").replace("?", "").strip("_\/") or "data"
+
+    for p in sorted(DATA_ROOT.iterdir()):
+        if p.is_dir() and p.name == safe:
+            return p
+    for p in sorted(DATA_ROOT.iterdir()):
+        if p.is_dir() and p.name.startswith(prefix):
+            return p
+
+    out = DATA_ROOT / safe
+    try:
+        out.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        out = DATA_ROOT / prefix.rstrip("_")
+        out.mkdir(parents=True, exist_ok=True)
+    return out
 
 _env_queue_root = os.environ.get("TASK_QUEUE_ROOT")
-RESEARCH_DIR = Path(_env_queue_root) if _env_queue_root else _find_named_dir("09_", "09_*")
+RESEARCH_DIR = Path(_env_queue_root) if _env_queue_root else _find_named_dir("09_", "09_投研")
 QUEUE_ROOT = RESEARCH_DIR / "task_queue"
 QUEUE_DB = QUEUE_ROOT / "task_queue.sqlite"
 REPORT_DIR = QUEUE_ROOT / "reports"
@@ -846,7 +860,7 @@ def _self_template_task(template: str) -> dict:
         "trigger": "daemon_schedule",
         "template": template,
         "node_id": 23,
-        "script": str(ROOT / "03_分工MCP" / "self_initiation_daily_queue_retro.py"),
+        "script": str(DATA_ROOT / "03_分工MCP" / "self_initiation_daily_queue_retro.py"),
         "cwd": str(ROOT),
         "timeout_seconds": 120,
         "expected_artifacts": [{"path": str(report_path)}],

@@ -16,8 +16,10 @@ from _shared.time import _now as shared_now
 from _shared.io import _loads as shared_loads
 from _shared.io import _append_jsonl as shared_append_jsonl
 
-ROOT = Path(__file__).resolve().parents[2]
-HOOK_DIR = ROOT / "09_投研" / "hook_runtime"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+HOOK_DIR = DATA_ROOT / "09_投研" / "hook_runtime"
 HOOK_LOG = HOOK_DIR / "hook_events.jsonl"
 
 RESEARCH_HINTS = {"搜索", "检索", "联网", "调研", "选型", "模型", "框架", "库", "pypi", "npm", "github", "api", "最新"}

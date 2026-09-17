@@ -32,24 +32,44 @@ from hook_runtime_mcp.common import _policy as _hook_policy
 from preflight_bundle_mcp.common import _append as _append_preflight_bundle
 from preflight_bundle_mcp.common import _bundle as _build_preflight_bundle
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
 
 
-def _find_named_dir(prefix: str, fallback: str) -> Path:
-    """Resolve the research dir deterministically (same rule as task_queue_mcp).
-    Multiple "09_" dirs exist; iterdir() order is filesystem-dependent."""
-    candidates = sorted(p for p in ROOT.iterdir() if p.is_dir() and p.name.startswith(prefix))
-    for path in candidates:
-        if path.name == "09_投研":
-            return path
-    if candidates:
-        return candidates[0]
-    matches = list(ROOT.glob(fallback))
-    return matches[0] if matches else ROOT / fallback.replace("*", "")
+# 查找顺序：DATA_ROOT（运行时数据区）优先，避免写进包根
+def _find_named_dir(prefix: str, canonical: str) -> Path:
+    """在运行时数据区定位目录，找不到就按规范名建一个。
 
+    参数 canonical 可能是通配符形式（如 "03_*MCP"），
+    这里会剥掉通配符字符再用 —— 否则 Windows 建目录会报
+    WinError 123（文件名含非法字符）。
+
+    为什么不搜包根：打包后包根是源码区，不该往里写运行时数据。
+    """
+    if not DATA_ROOT.is_dir():
+        DATA_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # 规范名去掉通配符，作为建目录用的合法名
+    safe = canonical.replace("*", "").replace("?", "").strip("_\/") or "data"
+
+    for p in sorted(DATA_ROOT.iterdir()):
+        if p.is_dir() and p.name == safe:
+            return p
+    for p in sorted(DATA_ROOT.iterdir()):
+        if p.is_dir() and p.name.startswith(prefix):
+            return p
+
+    out = DATA_ROOT / safe
+    try:
+        out.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        out = DATA_ROOT / prefix.rstrip("_")
+        out.mkdir(parents=True, exist_ok=True)
+    return out
 
 _env_queue_root = os.environ.get("TASK_QUEUE_ROOT")
-RESEARCH_DIR = Path(_env_queue_root) if _env_queue_root else _find_named_dir("09_", "09_*")
+RESEARCH_DIR = Path(_env_queue_root) if _env_queue_root else _find_named_dir("09_", "09_投研")
 MANDATORY_ROOT = RESEARCH_DIR / "mandatory_runtime_hook"
 
 

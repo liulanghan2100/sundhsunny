@@ -24,8 +24,10 @@ from memory_consolidation_mcp.common import _read_jsonl as _read_memory_jsonl, C
 from runtime_middleware_mcp.common import CLASS_STACKS
 from side_effect_admission_mcp.common import _classify_effect
 
-ROOT = Path(__file__).resolve().parents[2]
-PREFLIGHT_DIR = ROOT / "09_投研" / "preflight_bundle"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+PREFLIGHT_DIR = DATA_ROOT / "09_投研" / "preflight_bundle"
 PREFLIGHT_FILE = PREFLIGHT_DIR / "preflight_bundles.jsonl"
 
 

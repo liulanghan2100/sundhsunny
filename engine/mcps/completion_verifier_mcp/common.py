@@ -20,8 +20,10 @@ from _shared.time import _now as shared_now
 from _shared.io import _loads as shared_loads
 from _shared.state import safe_project
 
-ROOT = Path(__file__).resolve().parents[2]
-CERT_DIR = ROOT / "09_投研" / "completion_verifier"
+ROOT = Path(__file__).resolve().parents[3]        # 包根（打包后层级比源库多一层 engine/mcps）
+# 运行时数据统一落 data/mcps/，避免污染包根
+DATA_ROOT = ROOT / "data" / "mcps"
+CERT_DIR = DATA_ROOT / "09_投研" / "completion_verifier"
 
 REQUIRED_BY_CLASS = {
     "A": ["answer"],
